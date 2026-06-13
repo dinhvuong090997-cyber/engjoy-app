@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "index.ts",
   "dependencies": {
+    "@expo/metro-runtime": "~56.0.15",
     "expo": "~56.0.11",
     "expo-asset": "~56.0.17",
     "expo-constants": "~56.0.18",
@@ -15,20 +16,24 @@
     "expo-sqlite": "~56.0.5",
     "expo-status-bar": "~56.0.4",
     "react": "19.2.3",
+    "react-dom": "19.2.3",
     "react-native": "0.85.3",
     "react-native-safe-area-context": "~5.7.0",
     "react-native-screens": "^4.25.2",
+    "react-native-web": "^0.21.2",
     "zustand": "^5.0.14"
   },
   "devDependencies": {
     "@types/react": "~19.2.2",
+    "tsx": "^4.20.6",
     "typescript": "~6.0.3"
   },
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "web": "expo start --web"
+    "web": "expo start --web",
+    "test": "node --test --import tsx \"src/**/*.test.ts\""
   },
   "private": true
 }
