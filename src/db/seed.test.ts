@@ -31,13 +31,44 @@ const levelOneTopicMinimums: Record<string, number> = {
   transport: 15,
 };
 
+// Minimum total vocabulary words required per level (0-5).
+const levelVocabMinimums: Record<number, number> = {
+  0: 150,
+  1: 200,
+  2: 300,
+  3: 250,
+  4: 200,
+  5: 150,
+};
+
+// Minimum total questions required per level (0-5).
+const levelQuestionMinimums: Record<number, number> = {
+  0: 50,
+  1: 60,
+  2: 300,
+  3: 250,
+  4: 200,
+  5: 150,
+};
+
+function countByLevel(level: number): number {
+  return vocabulary.filter((word) => word.level === level).length;
+}
+
 function countByLevelAndTopic(level: number, topic: string): number {
   return vocabulary.filter((word) => word.level === level && word.topic === topic).length;
 }
 
-test("seed data has complete Level 0 and Level 1 learning content", () => {
+function countQuestionsByLevel(level: number): number {
+  return questions.filter((question) => question.level === level).length;
+}
+
+test("seed data has complete Level 0 through Level 5 learning content", () => {
   assert.ok(vocabulary.length >= 150);
-  assert.deepEqual(new Set(vocabulary.map((word) => word.level)), new Set([0, 1]));
+  assert.deepEqual(
+    new Set(vocabulary.map((word) => word.level)),
+    new Set([0, 1, 2, 3, 4, 5])
+  );
   assert.deepEqual(topics, [...TOPICS]);
 
   for (const word of vocabulary) {
@@ -61,10 +92,6 @@ test("seed data has complete Level 0 and Level 1 learning content", () => {
     );
   }
 
-  assert.ok(
-    vocabulary.filter((word) => word.level === 1).length >= 200,
-    "Level 1 needs at least 200 words"
-  );
   for (const [topic, minimum] of Object.entries(levelOneTopicMinimums)) {
     assert.ok(
       countByLevelAndTopic(1, topic) >= minimum,
@@ -72,12 +99,30 @@ test("seed data has complete Level 0 and Level 1 learning content", () => {
     );
   }
 
+  // Per-level vocabulary minimums (Levels 0-5).
+  for (const [level, minimum] of Object.entries(levelVocabMinimums)) {
+    assert.ok(
+      countByLevel(Number(level)) >= minimum,
+      `level ${level} needs at least ${minimum} words`
+    );
+  }
+
   assert.ok(questions.length >= 50);
-  assert.deepEqual(new Set(questions.map((question) => question.level)), new Set([0, 1]));
-  assert.ok(
-    questions.filter((question) => question.level === 1).length >= 60,
-    "Level 1 needs at least 60 questions"
+  assert.deepEqual(
+    new Set(questions.map((question) => question.level)),
+    new Set([0, 1, 2, 3, 4, 5])
   );
+
+  // Per-level question minimums (Levels 0-5).
+  for (const [level, minimum] of Object.entries(levelQuestionMinimums)) {
+    assert.ok(
+      countQuestionsByLevel(Number(level)) >= minimum,
+      `level ${level} needs at least ${minimum} questions`
+    );
+  }
+
+  // Every id is unique across the whole question set.
+  assert.equal(new Set(questions.map((question) => question.id)).size, questions.length);
   for (const question of questions) {
     assert.ok(Number.isInteger(question.id));
     assert.ok(question.content.trim().length > 0);
@@ -91,8 +136,8 @@ test("seed data has complete Level 0 and Level 1 learning content", () => {
   }
 
   assert.ok(stories.length >= 4);
-  assert.deepEqual(new Set(stories.map((story) => story.level)), new Set([0, 1]));
-  assert.deepEqual(new Set(stories.map((story) => story.unlock_level)), new Set([0, 1]));
+  assert.deepEqual(new Set(stories.map((story) => story.level)), new Set([0, 1, 2, 3]));
+  assert.deepEqual(new Set(stories.map((story) => story.unlock_level)), new Set([0, 1, 2, 3]));
   assert.ok(
     stories.filter((story) => story.level === 1).length >= 2,
     "Level 1 needs at least 2 stories"
