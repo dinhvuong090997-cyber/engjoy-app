@@ -113,19 +113,36 @@ Kết thúc: tmux kill-session -t claude-work
 | **5** | Story reader (comic) | ✅ | 10 truyện |
 | **6** | Quiz + Result | ✅ | 260 câu hỏi |
 | **7** | Profile + Gamification | ✅ | |
-| **8** | Seed data Levels 0-5 | 🔄 | 536 từ, 260 câu, 10 truyện (Claude Code đang gen thêm) |
-| **9** | Polish + Deploy web | 📅 | |
+| **8** | Seed data Levels 0-5 | ✅ | 1.404 từ, 1.100 câu, 16 truyện |
+| **9** | UI/UX Overhaul | ✅ | Coral theme, rounded cards, pill buttons |
+| **10** | Đổi level tự do | ✅ | Level selector trên Dashboard |
+| **11** | GitHub Pages deploy | 🔄 | Web tại https://dinhvuong090997-cyber.github.io/engjoy-app/ |
+| **12** | Tối ưu Level 4-5 vocab | 📅 | Còn thiếu ~200 từ |
+| **13** | Test kỹ trước demo | 📅 | Kiểm tra all screens, fix lỗi |
+| **14** | Tìm khách hàng đầu tiên | 📅 | Freelance / bán app |
 
 ### Kho dữ liệu hiện tại
 | Level | Từ vựng | Câu hỏi | Truyện |
 |---|---|---|---|
-| 0 - Starter | 150 | 54 | 3 |
-| 1 - Beginner | 245 | 65 | 3 |
-| 2 - Elementary | 75 | 75 | 2 |
-| 3 - Intermediate | 24 | 24 | 2 |
-| 4 - Upper | 21 | 21 | 0 |
-| 5 - Advanced | 21 | 21 | 0 |
-| **Tổng** | **536** | **260** | **10** |
+| 0 - Starter | 174 | 54 | 5 (3 lẻ + 2 Làng Sen) |
+| 1 - Beginner | 245 | 65 | 5 (3 lẻ + 2 Làng Sen) |
+| 2 - Elementary | 300 | 300 | 2 (1 Làng Sen + 1 lẻ) |
+| 3 - Intermediate | 279 | 279 | 2 (1 Làng Sen + 1 lẻ) |
+| 4 - Upper | 232 | 232 | 1 (Làng Sen) |
+| 5 - Advanced | 174 | 174 | 1 (Làng Sen) |
+| **Tổng** | **1.404** | **1.100** | **16** |
+
+### Screens & Tính năng
+| Screen | Trạng thái | Mô tả |
+|---|---|---|
+| Dashboard | ✅ | Hero streak card, stats row, level selector, topic carousel |
+| Onboarding | ✅ | Chọn level, nhập tên, hoặc bỏ qua |
+| Learn | ✅ | Search + 2-column topic grid, pastel cards |
+| Practice | ✅ | 3 mini game cards (nghe-chọn, điền, ghép) |
+| Read | ✅ | Story library + page flip reader + comprehension quiz |
+| Quiz | ✅ | 3 modes (quick/topic/review), result screen |
+| Profile | ✅ | Avatar, XP bar, achievements, stats |
+| Tab Navigator | ✅ | Coral theme, rounded bar, 5 tabs
 
 ---
 
