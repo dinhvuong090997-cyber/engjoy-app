@@ -37,7 +37,7 @@ export default function ProfileScreen() {
 
   useEffect(() => {
     try {
-      const row = getDb().getFirstSync<UserStatsRow>(
+      const row = (getDb() as any).getFirstSync(
         `SELECT
           display_name,
           total_xp,

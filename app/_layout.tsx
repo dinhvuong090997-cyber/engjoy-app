@@ -5,10 +5,6 @@ import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
 import { COLORS, FONT_SIZE, SPACING } from "../src/constants";
 import { getDb, initDatabase } from "../src/db/schema";
 
-type UserStatsRow = {
-  user_id: string;
-};
-
 export default function RootLayout() {
   const [isLoading, setIsLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -16,11 +12,9 @@ export default function RootLayout() {
   useEffect(() => {
     try {
       initDatabase();
-
-      const stats = getDb().getFirstSync<UserStatsRow>(
+      const stats = (getDb() as any).getFirstSync(
         "SELECT user_id FROM user_stats LIMIT 1"
       );
-
       router.replace(stats ? "/(tabs)" : "/onboarding");
     } catch (error) {
       console.error("Failed to initialize database", error);
@@ -32,54 +26,45 @@ export default function RootLayout() {
     }
   }, []);
 
-  return (
-    <View style={styles.container}>
-      <Stack screenOptions={{ headerShown: false }} />
-
-      {isLoading ? (
-        <View style={styles.overlay}>
-          <ActivityIndicator color={COLORS.primary} size="large" />
-          <Text style={styles.loadingText}>Đang chuẩn bị bài học...</Text>
-        </View>
-      ) : null}
-
-      {errorMessage ? (
-        <View style={styles.overlay}>
-          <Text style={styles.errorTitle}>Có lỗi xảy ra</Text>
+  if (errorMessage) {
+    return (
+      <View style={styles.loading}>
+        <View style={styles.errorCard}>
+          <ActivityIndicator size="small" color={COLORS.primary} />
           <Text style={styles.errorText}>{errorMessage}</Text>
         </View>
-      ) : null}
-    </View>
-  );
+      </View>
+    );
+  }
+
+  if (isLoading) {
+    return (
+      <View style={styles.loading}>
+        <ActivityIndicator size="large" color={COLORS.white} />
+      </View>
+    );
+  }
+
+  return <Stack screenOptions={{ headerShown: false }} />;
 }
 
 const styles = StyleSheet.create({
-  container: {
+  loading: {
     flex: 1,
-    backgroundColor: COLORS.background,
-  },
-  overlay: {
-    ...StyleSheet.absoluteFill,
-    alignItems: "center",
-    backgroundColor: COLORS.background,
     justifyContent: "center",
-    padding: SPACING.xl,
+    alignItems: "center",
+    backgroundColor: COLORS.primary,
   },
-  loadingText: {
-    color: COLORS.textSecondary,
-    fontSize: FONT_SIZE.md,
-    marginTop: SPACING.md,
-  },
-  errorTitle: {
-    color: COLORS.danger,
-    fontSize: FONT_SIZE.xl,
-    fontWeight: "800",
-    marginBottom: SPACING.sm,
-    textAlign: "center",
+  errorCard: {
+    maxWidth: 520,
+    margin: 24,
+    padding: 16,
+    borderRadius: 12,
+    backgroundColor: COLORS.white,
+    gap: 12,
   },
   errorText: {
-    color: COLORS.textSecondary,
-    fontSize: FONT_SIZE.md,
-    textAlign: "center",
+    color: COLORS.text,
+    fontSize: 14,
   },
 });
