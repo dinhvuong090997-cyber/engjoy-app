@@ -12,16 +12,16 @@ import {
   View,
 } from "react-native";
 
-import {
-  BORDER_RADIUS,
-  COLORS,
-  DAILY_GOAL_WORDS,
-  FONT_SIZE,
-  SPACING,
-  USER_ID,
-} from "../src/constants";
-import { getDb } from "../src/db/schema";
+import { COLORS, DAILY_GOAL_WORDS, FONT_SIZE, SPACING, BORDER_RADIUS, USER_ID } from "../src/constants";
 import { LEVEL_NAMES } from "../src/types";
+
+// Web vs native DB
+let getDb: () => any;
+if (Platform.OS === "web") {
+  getDb = require("../src/db/schema.web").getDb;
+} else {
+  getDb = require("../src/db/schema").getDb;
+}
 
 const LEVEL_EMOJIS: Record<number, string> = {
   0: "🐣",

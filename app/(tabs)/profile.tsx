@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import {
+  Platform,
   SafeAreaView,
   ScrollView,
   StyleSheet,
@@ -14,7 +15,15 @@ import {
   SPACING,
   USER_ID,
 } from "../../src/constants";
-import { getDb } from "../../src/db/schema";
+
+// Web vs native DB
+let getDb: () => any;
+if (Platform.OS === "web") {
+  getDb = require("../../src/db/schema.web").getDb;
+} else {
+  getDb = require("../../src/db/schema").getDb;
+}
+
 import {
   buildProfileModel,
   type Achievement,

@@ -1,9 +1,22 @@
 import { Stack, router } from "expo-router";
 import { useEffect, useState } from "react";
-import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
+import { ActivityIndicator, Platform, StyleSheet, Text, View } from "react-native";
 
-import { COLORS, FONT_SIZE, SPACING } from "../src/constants";
-import { getDb, initDatabase } from "../src/db/schema";
+import { COLORS } from "../src/constants";
+
+let initDatabase: () => void;
+let getDb: () => any;
+
+// Choose correct schema based on platform
+if (Platform.OS === "web") {
+  const webSchema = require("../src/db/schema.web");
+  initDatabase = webSchema.initDatabase;
+  getDb = webSchema.getDb;
+} else {
+  const nativeSchema = require("../src/db/schema");
+  initDatabase = nativeSchema.initDatabase;
+  getDb = nativeSchema.getDb;
+}
 
 export default function RootLayout() {
   const [isLoading, setIsLoading] = useState(true);
@@ -12,10 +25,16 @@ export default function RootLayout() {
   useEffect(() => {
     try {
       initDatabase();
-      const stats = (getDb() as any).getFirstSync(
-        "SELECT user_id FROM user_stats LIMIT 1"
-      );
-      router.replace(stats ? "/(tabs)" : "/onboarding");
+
+      if (Platform.OS === "web") {
+        const allStats = (getDb() as any).getAllUserStats();
+        router.replace(allStats.length > 0 ? "/(tabs)" : "/onboarding");
+      } else {
+        const stats = (getDb() as any).getFirstSync(
+          "SELECT user_id FROM user_stats LIMIT 1"
+        );
+        router.replace(stats ? "/(tabs)" : "/onboarding");
+      }
     } catch (error) {
       console.error("Failed to initialize database", error);
       setErrorMessage(

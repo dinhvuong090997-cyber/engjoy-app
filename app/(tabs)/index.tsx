@@ -7,6 +7,7 @@ import {
   StyleSheet,
   Text,
   View,
+  Platform,
 } from "react-native";
 
 import {
@@ -22,8 +23,15 @@ import {
   type DashboardStatsInput,
   type SuggestedTopic,
 } from "../../src/dashboard";
-import { getDb } from "../../src/db/schema";
 import { vocabulary } from "../../src/db/seed";
+
+// Web vs native DB
+let getDb: () => any;
+if (Platform.OS === "web") {
+  getDb = require("../../src/db/schema.web").getDb;
+} else {
+  getDb = require("../../src/db/schema").getDb;
+}
 
 type UserStatsRow = {
   total_xp: number;
