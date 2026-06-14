@@ -23,6 +23,7 @@ export default function StoryReaderScreen() {
   const { storyId } = useLocalSearchParams<{ storyId?: string }>();
   const story = useMemo(() => getStoryByRouteId(stories, storyId), [storyId]);
   const [answers, setAnswers] = useState<Record<number, number>>({});
+  const [pageIndex, setPageIndex] = useState(0);
 
   if (!story) {
     return (
@@ -41,49 +42,77 @@ export default function StoryReaderScreen() {
     );
   }
 
+  const totalPages = story.panels.length;
+  const questionsPageIndex = totalPages;
+  const isQuestionsPage = pageIndex >= questionsPageIndex;
+  const currentPanel = story.panels[Math.min(pageIndex, totalPages - 1)];
+  const progressPercent =
+    totalPages === 0 ? 0 : ((Math.min(pageIndex, totalPages - 1) + 1) / totalPages) * 100;
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
         <Header title={story.title} />
 
-        <ScrollView
-          contentContainerStyle={styles.content}
-          showsVerticalScrollIndicator={false}
-        >
-          {story.panels.map((panel, index) => (
-            <View key={`${panel.en}-${index}`} style={styles.panelCard}>
-              <Text style={styles.panelEmoji}>{panel.emoji}</Text>
-              <Text style={styles.panelEnglish}>{panel.en}</Text>
-              <Text style={styles.panelVietnamese}>{panel.vi}</Text>
-            </View>
-          ))}
-
-          <View style={styles.questionsSection}>
-            <Text style={styles.sectionTitle}>Câu hỏi đọc hiểu</Text>
-            {story.questions.length === 0 ? (
-              <View style={styles.emptyQuestionCard}>
-                <Text style={styles.emptyText}>
-                  Truyện này chưa có câu hỏi đọc hiểu.
-                </Text>
-              </View>
-            ) : (
-              story.questions.map((question, index) => (
-                <QuestionCard
-                  answer={answers[index]}
-                  key={`${question.content}-${index}`}
-                  onAnswer={(optionIndex) =>
-                    setAnswers((currentAnswers) => ({
-                      ...currentAnswers,
-                      [index]: optionIndex,
-                    }))
-                  }
-                  question={question}
-                  questionNumber={index + 1}
-                />
-              ))
-            )}
+        {isQuestionsPage ? (
+          <QuestionsPage
+            answers={answers}
+            onAnswer={(questionIndex, optionIndex) =>
+              setAnswers((currentAnswers) => ({
+                ...currentAnswers,
+                [questionIndex]: optionIndex,
+              }))
+            }
+            questions={story.questions}
+          />
+        ) : (
+          <View style={styles.pageCard}>
+            <Text style={styles.panelEmoji}>{currentPanel.emoji}</Text>
+            <Text style={styles.panelEnglish}>{currentPanel.en}</Text>
+            <Text style={styles.panelVietnamese}>{currentPanel.vi}</Text>
           </View>
-        </ScrollView>
+        )}
+
+        <View style={styles.footer}>
+          <View style={styles.progressHeader}>
+            <Text style={styles.progressText}>
+              {isQuestionsPage ? "Câu hỏi đọc hiểu" : `Trang ${pageIndex + 1} / ${totalPages}`}
+            </Text>
+          </View>
+          <View style={styles.progressTrack}>
+            <View style={[styles.progressFill, { width: `${progressPercent}%` }]} />
+          </View>
+          <View style={styles.navigationRow}>
+            <Pressable
+              accessibilityRole="button"
+              disabled={pageIndex === 0}
+              onPress={() => setPageIndex((currentPage) => Math.max(0, currentPage - 1))}
+              style={({ pressed }) => [
+                styles.navButton,
+                pageIndex === 0 ? styles.disabledButton : null,
+                pressed ? styles.pressedButton : null,
+              ]}
+            >
+              <Text style={styles.navButtonText}>‹</Text>
+            </Pressable>
+            <Pressable
+              accessibilityRole="button"
+              disabled={isQuestionsPage}
+              onPress={() =>
+                setPageIndex((currentPage) =>
+                  Math.min(questionsPageIndex, currentPage + 1)
+                )
+              }
+              style={({ pressed }) => [
+                styles.navButton,
+                isQuestionsPage ? styles.disabledButton : null,
+                pressed ? styles.pressedButton : null,
+              ]}
+            >
+              <Text style={styles.navButtonText}>›</Text>
+            </Pressable>
+          </View>
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -105,6 +134,44 @@ function Header({ title }: { title: string }) {
       <Text numberOfLines={2} style={styles.title}>
         {title}
       </Text>
+    </View>
+  );
+}
+
+function QuestionsPage({
+  answers,
+  onAnswer,
+  questions,
+}: {
+  answers: Record<number, number>;
+  onAnswer: (questionIndex: number, optionIndex: number) => void;
+  questions: StoryQuestion[];
+}) {
+  return (
+    <View style={styles.questionsPage}>
+      <Text style={styles.sectionTitle}>Câu hỏi đọc hiểu</Text>
+      <ScrollView
+        contentContainerStyle={styles.questionsContent}
+        showsVerticalScrollIndicator={false}
+      >
+        {questions.length === 0 ? (
+          <View style={styles.emptyQuestionCard}>
+            <Text style={styles.emptyText}>
+              Truyện này chưa có câu hỏi đọc hiểu.
+            </Text>
+          </View>
+        ) : (
+          questions.map((question, index) => (
+            <QuestionCard
+              answer={answers[index]}
+              key={`${question.content}-${index}`}
+              onAnswer={(optionIndex) => onAnswer(index, optionIndex)}
+              question={question}
+              questionNumber={index + 1}
+            />
+          ))
+        )}
+      </ScrollView>
     </View>
   );
 }
@@ -213,40 +280,42 @@ const styles = StyleSheet.create({
     fontWeight: "900",
     lineHeight: 30,
   },
-  content: {
-    paddingBottom: SPACING.xl,
-  },
-  panelCard: {
+  pageCard: {
     alignItems: "center",
     backgroundColor: COLORS.white,
     borderColor: COLORS.border,
     borderRadius: BORDER_RADIUS.lg,
     borderWidth: 1,
-    marginBottom: SPACING.md,
-    padding: SPACING.lg,
+    flex: 1,
+    justifyContent: "center",
+    padding: SPACING.xl,
   },
   panelEmoji: {
-    fontSize: 72,
-    lineHeight: 88,
-    marginBottom: SPACING.md,
+    fontSize: 48,
+    lineHeight: 60,
+    marginBottom: SPACING.lg,
     textAlign: "center",
   },
   panelEnglish: {
     color: COLORS.text,
-    fontSize: FONT_SIZE.xl,
+    fontSize: FONT_SIZE.xxl,
     fontWeight: "900",
-    lineHeight: 30,
+    lineHeight: 40,
     textAlign: "center",
   },
   panelVietnamese: {
     color: COLORS.textSecondary,
-    fontSize: FONT_SIZE.md,
-    lineHeight: 22,
-    marginTop: SPACING.sm,
+    fontSize: FONT_SIZE.lg,
+    fontWeight: "700",
+    lineHeight: 28,
+    marginTop: SPACING.md,
     textAlign: "center",
   },
-  questionsSection: {
-    marginTop: SPACING.sm,
+  questionsPage: {
+    flex: 1,
+  },
+  questionsContent: {
+    paddingBottom: SPACING.md,
   },
   sectionTitle: {
     color: COLORS.text,
@@ -308,6 +377,55 @@ const styles = StyleSheet.create({
   },
   wrongFeedback: {
     color: COLORS.danger,
+  },
+  footer: {
+    backgroundColor: COLORS.background,
+    paddingTop: SPACING.md,
+  },
+  progressHeader: {
+    alignItems: "center",
+    marginBottom: SPACING.sm,
+  },
+  progressText: {
+    color: COLORS.textSecondary,
+    fontSize: FONT_SIZE.sm,
+    fontWeight: "900",
+  },
+  progressTrack: {
+    backgroundColor: COLORS.border,
+    borderRadius: BORDER_RADIUS.full,
+    height: 8,
+    overflow: "hidden",
+  },
+  progressFill: {
+    backgroundColor: COLORS.primary,
+    borderRadius: BORDER_RADIUS.full,
+    height: "100%",
+  },
+  navigationRow: {
+    flexDirection: "row",
+    gap: SPACING.md,
+    justifyContent: "space-between",
+    marginTop: SPACING.md,
+  },
+  navButton: {
+    alignItems: "center",
+    backgroundColor: COLORS.white,
+    borderColor: COLORS.border,
+    borderRadius: BORDER_RADIUS.full,
+    borderWidth: 1,
+    flex: 1,
+    height: 52,
+    justifyContent: "center",
+  },
+  navButtonText: {
+    color: COLORS.text,
+    fontSize: FONT_SIZE.xxl,
+    fontWeight: "900",
+    lineHeight: 36,
+  },
+  disabledButton: {
+    opacity: 0.35,
   },
   emptyCard: {
     alignItems: "center",

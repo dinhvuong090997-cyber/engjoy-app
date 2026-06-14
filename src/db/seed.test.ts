@@ -51,6 +51,15 @@ const levelQuestionMinimums: Record<number, number> = {
   5: 150,
 };
 
+const langSenPanelCounts: Record<string, number> = {
+  "Little Lotus": 10,
+  "Village Life": 12,
+  "The Forest Adventure": 14,
+  "Across the Mountain": 16,
+  "The City": 18,
+  "Returning Home": 20,
+};
+
 function countByLevel(level: number): number {
   return vocabulary.filter((word) => word.level === level).length;
 }
@@ -136,18 +145,26 @@ test("seed data has complete Level 0 through Level 5 learning content", () => {
   }
 
   assert.ok(stories.length >= 4);
-  assert.deepEqual(new Set(stories.map((story) => story.level)), new Set([0, 1, 2, 3]));
-  assert.deepEqual(new Set(stories.map((story) => story.unlock_level)), new Set([0, 1, 2, 3]));
+  assert.deepEqual(new Set(stories.map((story) => story.level)), new Set([0, 1, 2, 3, 4, 5]));
+  assert.deepEqual(new Set(stories.map((story) => story.unlock_level)), new Set([0, 1, 2, 3, 4, 5]));
   assert.ok(
     stories.filter((story) => story.level === 1).length >= 2,
     "Level 1 needs at least 2 stories"
   );
   for (const story of stories) {
+    const expectedLangSenPanels = langSenPanelCounts[story.title];
+
     assert.ok(story.title.trim().length > 0);
     assert.ok(story.title_vi.trim().length > 0);
     assert.ok(story.panels.length >= 4);
-    assert.ok(story.panels.length <= 16);
-    assert.equal(story.questions.length, 3);
+    assert.ok(story.panels.length <= 20);
+    assert.equal(
+      story.questions.length,
+      expectedLangSenPanels === undefined ? 3 : 4
+    );
+    if (expectedLangSenPanels !== undefined) {
+      assert.equal(story.panels.length, expectedLangSenPanels);
+    }
     assert.ok(
       story.panels.every(
         (panel) =>
