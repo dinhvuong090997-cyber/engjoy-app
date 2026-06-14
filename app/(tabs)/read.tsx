@@ -148,7 +148,7 @@ const styles = StyleSheet.create({
   levelBadge: {
     alignSelf: "flex-start",
     backgroundColor: COLORS.secondaryLight,
-    borderRadius: BORDER_RADIUS.full,
+    borderRadius: BORDER_RADIUS.pill,
     color: COLORS.secondary,
     fontSize: FONT_SIZE.xs,
     fontWeight: "900",

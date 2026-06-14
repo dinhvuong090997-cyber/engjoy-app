@@ -173,7 +173,7 @@ const styles = StyleSheet.create({
   },
   percentageCircle: {
     alignItems: "center",
-    borderRadius: BORDER_RADIUS.full,
+    borderRadius: BORDER_RADIUS.pill,
     borderWidth: 10,
     height: 150,
     justifyContent: "center",

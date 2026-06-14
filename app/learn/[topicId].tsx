@@ -265,7 +265,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: COLORS.white,
     borderColor: COLORS.border,
-    borderRadius: BORDER_RADIUS.full,
+    borderRadius: BORDER_RADIUS.pill,
     borderWidth: 1,
     height: 44,
     justifyContent: "center",
@@ -301,7 +301,7 @@ const styles = StyleSheet.create({
   tabSelector: {
     backgroundColor: COLORS.white,
     borderColor: COLORS.border,
-    borderRadius: BORDER_RADIUS.full,
+    borderRadius: BORDER_RADIUS.pill,
     borderWidth: 1,
     flexDirection: "row",
     gap: SPACING.xs,
@@ -310,7 +310,7 @@ const styles = StyleSheet.create({
   },
   tabButton: {
     alignItems: "center",
-    borderRadius: BORDER_RADIUS.full,
+    borderRadius: BORDER_RADIUS.pill,
     flex: 1,
     justifyContent: "center",
     minHeight: 42,
@@ -359,7 +359,7 @@ const styles = StyleSheet.create({
   soundButton: {
     alignItems: "center",
     backgroundColor: COLORS.secondaryLight,
-    borderRadius: BORDER_RADIUS.full,
+    borderRadius: BORDER_RADIUS.pill,
     height: 44,
     justifyContent: "center",
     width: 44,

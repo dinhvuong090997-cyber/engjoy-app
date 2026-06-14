@@ -273,7 +273,7 @@ const styles = StyleSheet.create({
   startButton: {
     alignItems: "center",
     backgroundColor: COLORS.primary,
-    borderRadius: BORDER_RADIUS.full,
+    borderRadius: BORDER_RADIUS.pill,
     minHeight: 58,
     justifyContent: "center",
     paddingHorizontal: SPACING.xl,

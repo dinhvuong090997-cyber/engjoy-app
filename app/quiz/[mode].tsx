@@ -235,7 +235,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: COLORS.white,
     borderColor: COLORS.border,
-    borderRadius: BORDER_RADIUS.full,
+    borderRadius: BORDER_RADIUS.pill,
     borderWidth: 1,
     height: 44,
     justifyContent: "center",
@@ -304,7 +304,7 @@ const styles = StyleSheet.create({
   },
   scorePill: {
     backgroundColor: COLORS.secondaryLight,
-    borderRadius: BORDER_RADIUS.full,
+    borderRadius: BORDER_RADIUS.pill,
     color: COLORS.secondary,
     fontSize: FONT_SIZE.sm,
     fontWeight: "900",
@@ -314,14 +314,14 @@ const styles = StyleSheet.create({
   },
   progressTrack: {
     backgroundColor: COLORS.border,
-    borderRadius: BORDER_RADIUS.full,
+    borderRadius: BORDER_RADIUS.pill,
     height: 10,
     marginTop: SPACING.md,
     overflow: "hidden",
   },
   progressFill: {
     backgroundColor: COLORS.secondary,
-    borderRadius: BORDER_RADIUS.full,
+    borderRadius: BORDER_RADIUS.pill,
     height: "100%",
   },
   questionText: {

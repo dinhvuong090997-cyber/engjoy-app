@@ -258,7 +258,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: COLORS.white,
     borderColor: COLORS.border,
-    borderRadius: BORDER_RADIUS.full,
+    borderRadius: BORDER_RADIUS.pill,
     borderWidth: 1,
     height: 44,
     justifyContent: "center",
@@ -393,13 +393,13 @@ const styles = StyleSheet.create({
   },
   progressTrack: {
     backgroundColor: COLORS.border,
-    borderRadius: BORDER_RADIUS.full,
+    borderRadius: BORDER_RADIUS.pill,
     height: 8,
     overflow: "hidden",
   },
   progressFill: {
     backgroundColor: COLORS.primary,
-    borderRadius: BORDER_RADIUS.full,
+    borderRadius: BORDER_RADIUS.pill,
     height: "100%",
   },
   navigationRow: {
@@ -412,7 +412,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: COLORS.white,
     borderColor: COLORS.border,
-    borderRadius: BORDER_RADIUS.full,
+    borderRadius: BORDER_RADIUS.pill,
     borderWidth: 1,
     flex: 1,
     height: 52,

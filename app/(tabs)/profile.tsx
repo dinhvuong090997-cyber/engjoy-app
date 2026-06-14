@@ -260,7 +260,7 @@ const styles = StyleSheet.create({
   avatar: {
     alignItems: "center",
     backgroundColor: COLORS.primaryLight,
-    borderRadius: BORDER_RADIUS.full,
+    borderRadius: BORDER_RADIUS.pill,
     height: 76,
     justifyContent: "center",
     position: "relative",
@@ -290,7 +290,7 @@ const styles = StyleSheet.create({
   levelBadge: {
     alignSelf: "flex-start",
     backgroundColor: COLORS.secondaryLight,
-    borderRadius: BORDER_RADIUS.full,
+    borderRadius: BORDER_RADIUS.pill,
     paddingHorizontal: SPACING.md,
     paddingVertical: SPACING.sm,
   },
@@ -357,14 +357,14 @@ const styles = StyleSheet.create({
   },
   progressTrack: {
     backgroundColor: COLORS.border,
-    borderRadius: BORDER_RADIUS.full,
+    borderRadius: BORDER_RADIUS.pill,
     height: 12,
     marginTop: SPACING.md,
     overflow: "hidden",
   },
   progressFill: {
     backgroundColor: COLORS.primary,
-    borderRadius: BORDER_RADIUS.full,
+    borderRadius: BORDER_RADIUS.pill,
     height: "100%",
   },
   streakCard: {
