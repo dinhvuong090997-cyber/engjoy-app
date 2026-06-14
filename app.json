@@ -6,6 +6,17 @@
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
+    "extra": {
+      "eas": {
+        "projectId": "engjoy-app"
+      }
+    },
+    "web": {
+      "output": "single",
+      "bundler": "metro",
+      "name": "EngJoy",
+      "shortName": "EngJoy"
+    },
     "ios": {
       "supportsTablet": true
     },

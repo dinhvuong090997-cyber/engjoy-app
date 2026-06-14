@@ -13,7 +13,16 @@ jobs:
         with:
           node-version: 22
       - run: npm ci
-      - run: npx expo export --platform web
+      - run: npx expo export --platform web --output-dir dist
+      - name: Fix asset paths for GitHub Pages
+        run: |
+          cd dist
+          # Create index.html at root if not exists
+          if [ -f "_expo/static/js/web/index.html" ]; then
+            cp _expo/static/js/web/index.html index.html
+          fi
+          # Ensure all HTML files exist
+          find . -name "*.html" | head -20
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist/
