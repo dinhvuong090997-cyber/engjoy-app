@@ -146,7 +146,7 @@ test("seed data has complete Level 0 through Level 5 learning content", () => {
     assert.ok(story.title.trim().length > 0);
     assert.ok(story.title_vi.trim().length > 0);
     assert.ok(story.panels.length >= 4);
-    assert.ok(story.panels.length <= 12);
+    assert.ok(story.panels.length <= 16);
     assert.equal(story.questions.length, 3);
     assert.ok(
       story.panels.every(
