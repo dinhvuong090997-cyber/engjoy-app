@@ -51,6 +51,13 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
+        name="practice"
+        options={{
+          title: "Luyện",
+          tabBarIcon: ({ focused }) => <TabIcon focused={focused} icon="🎮" />,
+        }}
+      />
+      <Tabs.Screen
         name="read"
         options={{
           title: "Đọc",
