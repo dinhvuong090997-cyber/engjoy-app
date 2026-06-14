@@ -203,6 +203,40 @@ export default function HomeScreen() {
           <StatCard emoji="📖" number={quickStats.stories} label="truyện" />
         </View>
 
+        <View style={styles.levelSelectorCard}>
+          <Text style={styles.levelSelectorLabel}>Trình độ hiện tại:</Text>
+          <View style={styles.levelChips}>
+            {[0,1,2,3,4,5].map((lv) => (
+              <Pressable
+                key={lv}
+                onPress={() => {
+                  try {
+                    (getDb() as any).runSync(
+                      "UPDATE user_stats SET level = ? WHERE user_id = ?",
+                      lv, USER_ID
+                    );
+                    setStats((prev) => ({ ...prev, level: lv }));
+                  } catch (_e) {}
+                }}
+                style={[
+                  styles.levelChip,
+                  stats.level === lv ? styles.levelChipActive : null,
+                ]}
+              >
+                <Text style={[
+                  styles.levelChipText,
+                  stats.level === lv ? styles.levelChipTextActive : null,
+                ]}>
+                  {lv}
+                </Text>
+              </Pressable>
+            ))}
+          </View>
+          <Text style={styles.levelSelectorHint}>
+            Chọn level phù hợp — nội dung hiển thị theo level đã chọn
+          </Text>
+        </View>
+
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Hoạt động gần đây</Text>
           <View style={styles.activityCard}>
@@ -551,5 +585,56 @@ const styles = StyleSheet.create({
     fontSize: FONT_SIZE.md,
     fontWeight: "700",
     lineHeight: 22,
+  },
+  levelSelectorCard: {
+    backgroundColor: COLORS.white,
+    borderRadius: BORDER_RADIUS.lg,
+    marginBottom: SPACING.xl,
+    marginHorizontal: SPACING.lg,
+    padding: SPACING.lg,
+    shadowColor: COLORS.text,
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.07,
+    shadowRadius: 8,
+    elevation: 2,
+  },
+  levelSelectorLabel: {
+    color: COLORS.text,
+    fontSize: FONT_SIZE.md,
+    fontWeight: "800",
+    marginBottom: SPACING.md,
+  },
+  levelChips: {
+    flexDirection: "row",
+    gap: SPACING.sm,
+    justifyContent: "center",
+  },
+  levelChip: {
+    alignItems: "center",
+    backgroundColor: COLORS.background,
+    borderColor: COLORS.border,
+    borderRadius: BORDER_RADIUS.pill,
+    borderWidth: 1,
+    height: 40,
+    justifyContent: "center",
+    width: 40,
+  },
+  levelChipActive: {
+    backgroundColor: COLORS.primaryLight,
+    borderColor: COLORS.primary,
+  },
+  levelChipText: {
+    color: COLORS.textSecondary,
+    fontSize: FONT_SIZE.sm,
+    fontWeight: "800",
+  },
+  levelChipTextActive: {
+    color: COLORS.primary,
+  },
+  levelSelectorHint: {
+    color: COLORS.textTertiary,
+    fontSize: FONT_SIZE.xs,
+    marginTop: SPACING.md,
+    textAlign: "center",
   },
 });
