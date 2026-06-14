@@ -1,11 +1,12 @@
 import { router } from "expo-router";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import {
   Pressable,
   SafeAreaView,
   ScrollView,
   StyleSheet,
   Text,
+  TextInput,
   View,
 } from "react-native";
 
@@ -16,51 +17,67 @@ import {
   SPACING,
 } from "../../src/constants";
 import { vocabulary } from "../../src/db/seed";
+import { TOPIC_DETAILS } from "../../src/dashboard";
 import { buildLearnTopicProgress } from "../../src/learn";
-import { type Topic } from "../../src/types";
 
-const TOPIC_DETAILS: Record<Topic, { emoji: string; name: string }> = {
-  animals: { emoji: "🐶", name: "Động vật" },
-  body: { emoji: "👋", name: "Cơ thể" },
-  clothes: { emoji: "👕", name: "Quần áo" },
-  colors: { emoji: "🎨", name: "Màu sắc" },
-  emotions: { emoji: "😊", name: "Cảm xúc" },
-  family: { emoji: "👨‍👩‍👧", name: "Gia đình" },
-  food: { emoji: "🍽️", name: "Đồ ăn" },
-  fruits: { emoji: "🍎", name: "Trái cây" },
-  house: { emoji: "🏠", name: "Ngôi nhà" },
-  jobs: { emoji: "👩‍🏫", name: "Nghề nghiệp" },
-  nature: { emoji: "🌳", name: "Thiên nhiên" },
-  numbers: { emoji: "🔢", name: "Số đếm" },
-  school: { emoji: "🎒", name: "Trường học" },
-  shapes: { emoji: "🔷", name: "Hình dạng" },
-  sports: { emoji: "⚽", name: "Thể thao" },
-  toys: { emoji: "🧸", name: "Đồ chơi" },
-  transport: { emoji: "🚗", name: "Giao thông" },
-  vegetables: { emoji: "🥕", name: "Rau củ" },
-  weather: { emoji: "☀️", name: "Thời tiết" },
-  actions: { emoji: "🏃", name: "Hành động" },
-};
+const TOPIC_COLORS = [
+  "#FFE8E8",
+  "#E0F7F4",
+  "#FEF3C7",
+  "#EDE9FE",
+  "#DBEAFE",
+  "#DCFCE7",
+  "#FCE7F3",
+  "#FFEDD5",
+  "#E0E7FF",
+  "#CCFBF1",
+];
 
 export default function LearnScreen() {
+  const [searchText, setSearchText] = useState("");
   const topics = useMemo(() => buildLearnTopicProgress(vocabulary), []);
+  const filteredTopics = useMemo(() => {
+    const query = searchText.trim().toLocaleLowerCase("vi-VN");
+
+    if (!query) {
+      return topics;
+    }
+
+    return topics.filter((topic) => {
+      const details = TOPIC_DETAILS[topic.id];
+      return (
+        details.name.toLocaleLowerCase("vi-VN").includes(query) ||
+        topic.id.includes(query)
+      );
+    });
+  }, [searchText, topics]);
 
   return (
     <SafeAreaView style={styles.safeArea}>
       <ScrollView
         contentContainerStyle={styles.content}
+        keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}
       >
-        <View style={styles.header}>
-          <Text style={styles.title}>Học từ vựng</Text>
-          <Text style={styles.subtitle}>Chọn chủ đề để bắt đầu học.</Text>
+        <View style={styles.searchBar}>
+          <Text style={styles.searchIcon}>🔍</Text>
+          <TextInput
+            autoCapitalize="none"
+            autoCorrect={false}
+            onChangeText={setSearchText}
+            placeholder="Tìm chủ đề..."
+            placeholderTextColor={COLORS.textTertiary}
+            style={styles.searchInput}
+            value={searchText}
+          />
         </View>
 
+        <Text style={styles.title}>Học từ vựng 📚</Text>
+
         <View style={styles.grid}>
-          {topics.map((topic) => {
+          {filteredTopics.map((topic, index) => {
             const details = TOPIC_DETAILS[topic.id];
-            const progressRatio =
-              topic.totalCount > 0 ? topic.learnedCount / topic.totalCount : 0;
+            const accentColor = TOPIC_COLORS[index % TOPIC_COLORS.length];
 
             return (
               <Pressable
@@ -72,25 +89,18 @@ export default function LearnScreen() {
                   pressed ? styles.pressedCard : null,
                 ]}
               >
-                <Text style={styles.topicEmoji}>{details.emoji}</Text>
+                <View
+                  style={[
+                    styles.topicEmojiWrap,
+                    { backgroundColor: accentColor },
+                  ]}
+                >
+                  <Text style={styles.topicEmoji}>{details.emoji}</Text>
+                </View>
                 <Text numberOfLines={1} style={styles.topicName}>
                   {details.name}
                 </Text>
-                <Text style={styles.progressText}>
-                  {topic.learnedCount}/{topic.totalCount} từ đã học
-                </Text>
-                <View
-                  accessibilityLabel={`${topic.learnedCount}/${topic.totalCount} từ đã học`}
-                  accessibilityRole="progressbar"
-                  style={styles.progressTrack}
-                >
-                  <View
-                    style={[
-                      styles.progressFill,
-                      { width: `${progressRatio * 100}%` },
-                    ]}
-                  />
-                </View>
+                <Text style={styles.wordCount}>{topic.totalCount} từ</Text>
               </Pressable>
             );
           })}
@@ -109,18 +119,38 @@ const styles = StyleSheet.create({
     padding: SPACING.lg,
     paddingBottom: SPACING.xl + 80,
   },
-  header: {
+  searchBar: {
+    alignItems: "center",
+    backgroundColor: COLORS.white,
+    borderColor: COLORS.borderLight,
+    borderRadius: BORDER_RADIUS.pill,
+    borderWidth: 1,
+    flexDirection: "row",
+    gap: SPACING.sm,
     marginBottom: SPACING.lg,
+    paddingHorizontal: SPACING.lg,
+    paddingVertical: SPACING.md,
+    shadowColor: COLORS.text,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.06,
+    shadowRadius: 10,
+    elevation: 2,
+  },
+  searchIcon: {
+    fontSize: FONT_SIZE.lg,
+  },
+  searchInput: {
+    color: COLORS.text,
+    flex: 1,
+    fontSize: FONT_SIZE.md,
+    fontWeight: "700",
+    padding: 0,
   },
   title: {
     color: COLORS.text,
     fontSize: FONT_SIZE.xxl,
     fontWeight: "900",
-  },
-  subtitle: {
-    color: COLORS.textSecondary,
-    fontSize: FONT_SIZE.md,
-    marginTop: SPACING.xs,
+    marginBottom: SPACING.lg,
   },
   grid: {
     flexDirection: "row",
@@ -128,42 +158,46 @@ const styles = StyleSheet.create({
     gap: SPACING.md,
   },
   topicCard: {
+    alignItems: "center",
     backgroundColor: COLORS.white,
-    borderColor: COLORS.border,
+    borderColor: COLORS.borderLight,
     borderRadius: BORDER_RADIUS.lg,
     borderWidth: 1,
-    minHeight: 152,
+    minHeight: 156,
     padding: SPACING.md,
+    shadowColor: COLORS.text,
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.07,
+    shadowRadius: 12,
     width: "47.8%",
+    elevation: 2,
   },
   pressedCard: {
     opacity: 0.72,
     transform: [{ scale: 0.98 }],
   },
+  topicEmojiWrap: {
+    alignItems: "center",
+    borderRadius: BORDER_RADIUS.lg,
+    height: 72,
+    justifyContent: "center",
+    marginBottom: SPACING.md,
+    width: "100%",
+  },
   topicEmoji: {
-    fontSize: FONT_SIZE.xxl,
-    marginBottom: SPACING.sm,
+    fontSize: FONT_SIZE.xxxl,
   },
   topicName: {
     color: COLORS.text,
-    fontSize: FONT_SIZE.lg,
+    fontSize: FONT_SIZE.md,
     fontWeight: "900",
+    textAlign: "center",
+    width: "100%",
   },
-  progressText: {
+  wordCount: {
     color: COLORS.textSecondary,
     fontSize: FONT_SIZE.sm,
+    fontWeight: "700",
     marginTop: SPACING.xs,
-  },
-  progressTrack: {
-    backgroundColor: COLORS.border,
-    borderRadius: BORDER_RADIUS.full,
-    height: 8,
-    marginTop: SPACING.md,
-    overflow: "hidden",
-  },
-  progressFill: {
-    backgroundColor: COLORS.secondary,
-    borderRadius: BORDER_RADIUS.full,
-    height: "100%",
   },
 });
