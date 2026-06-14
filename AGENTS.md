@@ -116,10 +116,11 @@ Kết thúc: tmux kill-session -t claude-work
 | **8** | Seed data Levels 0-5 | ✅ | 1.404 từ, 1.100 câu, 16 truyện |
 | **9** | UI/UX Overhaul | ✅ | Coral theme, rounded cards, pill buttons |
 | **10** | Đổi level tự do | ✅ | Level selector trên Dashboard |
-| **11** | GitHub Pages deploy | 🔄 | Web tại https://dinhvuong090997-cyber.github.io/engjoy-app/ |
-| **12** | Tối ưu Level 4-5 vocab | 📅 | Còn thiếu ~200 từ |
-| **13** | Test kỹ trước demo | 📅 | Kiểm tra all screens, fix lỗi |
-| **14** | Tìm khách hàng đầu tiên | 📅 | Freelance / bán app |
+|| **11** | GitHub Pages deploy | ✅ | Web tại https://dinhvuong090997-cyber.github.io/engjoy-app/ |
+|| **12** | Tối ưu Level 4-5 vocab | ✅ | +161 từ mới (Level 4: 311, Level 5: 240) |
+|| **13** | Tab Thư Viện — gộp đọc + TTS | ✅ | 5 truyện Aesop + The Paper Airplane |
+|| **14** | Fix emoji animals 🐾 → icon riêng | ✅ | 30 từ sửa emoji, 7 từ clear |
+|| **15** | Tìm khách hàng đầu tiên | 📅 | Freelance / bán app |
 
 ### Kho dữ liệu hiện tại
 | Level | Từ vựng | Câu hỏi | Truyện |
