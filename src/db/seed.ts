@@ -1433,6 +1433,11 @@ export const vocabulary: VocabWord[] = [
   { id: 1374, word: "vertebra", meaning_vi: "đốt sống", emoji: "🫀", topic: "body", level: 5, example_en: "The word \"vertebra\" is useful to know.", example_vi: "\"vertebra\" có nghĩa là đốt sống.", part_of_speech: "noun" },
   { id: 1375, word: "sternum", meaning_vi: "xương ức", emoji: "🫀", topic: "body", level: 5, example_en: "The word \"sternum\" is useful to know.", example_vi: "\"sternum\" có nghĩa là xương ức.", part_of_speech: "noun" },
   { id: 1376, word: "clavicle", meaning_vi: "xương đòn", emoji: "🫀", topic: "body", level: 5, example_en: "The word \"clavicle\" is useful to know.", example_vi: "\"clavicle\" có nghĩa là xương đòn.", part_of_speech: "noun" },
+
+  { id: 1377, word: "athletics", meaning_vi: "điền kinh", emoji: "🏃", topic: "sports", level: 4, example_en: "Athletics includes running and jumping events.", example_vi: "Điền kinh gồm chạy và nhảy.", part_of_speech: "noun" },
+  { id: 1378, word: "pursue", meaning_vi: "theo đuổi", emoji: "🏃", topic: "actions", level: 5, example_en: "She decided to pursue her dream career.", example_vi: "Cô ấy quyết định theo đuổi sự nghiệp mơ ước.", part_of_speech: "verb" },
+  { id: 1379, word: "nostalgic", meaning_vi: "hoài niệm", emoji: "💭", topic: "emotions", level: 5, example_en: "Old photos make me feel nostalgic.", example_vi: "Ảnh cũ khiến em cảm thấy hoài niệm.", part_of_speech: "adj" },
+  { id: 1380, word: "bracelet", meaning_vi: "vòng tay", emoji: "📿", topic: "clothes", level: 5, example_en: "The bracelet is made of silver.", example_vi: "Chiếc vòng tay làm từ bạc.", part_of_speech: "noun" },
 ];
 
 export const questions: Question[] = [
@@ -2567,6 +2572,11 @@ export const questions: Question[] = [
   { id: 1098, content: "What does \"vertebra\" mean?", options: ["bí","gấu túi wombat","vịnh hẹp","đốt sống"], correct_index: 3, type: "mcq", topic: "body", level: 5, explanation_vi: "\"vertebra\" có nghĩa là đốt sống." },
   { id: 1099, content: "What does \"sternum\" mean?", options: ["xương ức","hẹ tây","bình tĩnh","sấm"], correct_index: 0, type: "mcq", topic: "body", level: 5, explanation_vi: "\"sternum\" có nghĩa là xương ức." },
   { id: 1100, content: "What does \"clavicle\" mean?", options: ["xương đòn","tê tê","e ngại","đồi"], correct_index: 0, type: "mcq", topic: "body", level: 5, explanation_vi: "\"clavicle\" có nghĩa là xương đòn." },
+
+  { id: 1101, content: "What does \"athletics\" mean?", options: ["điền kinh", "cái đĩa", "cái bút", "con cá"], correct_index: 0, type: "mcq", topic: "sports", level: 4, explanation_vi: "\"athletics\" có nghĩa là điền kinh." },
+  { id: 1102, content: "What does \"pursue\" mean?", options: ["theo đuổi", "dòng sông", "ngôi nhà", "quyển sách"], correct_index: 0, type: "mcq", topic: "actions", level: 5, explanation_vi: "\"pursue\" có nghĩa là theo đuổi." },
+  { id: 1103, content: "What does \"nostalgic\" mean?", options: ["hoài niệm", "quyển sách", "cửa sổ", "màu xanh"], correct_index: 0, type: "mcq", topic: "emotions", level: 5, explanation_vi: "\"nostalgic\" có nghĩa là hoài niệm." },
+  { id: 1104, content: "What does \"bracelet\" mean?", options: ["vòng tay", "quyển sách", "mặt trời", "con mèo"], correct_index: 0, type: "mcq", topic: "clothes", level: 5, explanation_vi: "\"bracelet\" có nghĩa là vòng tay." },
 ];
 
 export const stories = [
