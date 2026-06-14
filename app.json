@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "engjoy-app",
+    "name": "EngJoy",
     "slug": "engjoy-app",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -15,7 +15,8 @@
       "output": "single",
       "bundler": "metro",
       "name": "EngJoy",
-      "shortName": "EngJoy"
+      "shortName": "EngJoy",
+      "favicon": "./assets/favicon.png"
     },
     "ios": {
       "supportsTablet": true
@@ -28,9 +29,6 @@
         "monochromeImage": "./assets/android-icon-monochrome.png"
       },
       "predictiveBackGestureEnabled": false
-    },
-    "web": {
-      "favicon": "./assets/favicon.png"
     }
   }
 }
