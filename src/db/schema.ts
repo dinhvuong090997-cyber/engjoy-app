@@ -57,11 +57,40 @@ export function initDatabase(): void {
 
     CREATE TABLE IF NOT EXISTS user_stats (
       user_id TEXT PRIMARY KEY NOT NULL,
+      display_name TEXT NOT NULL DEFAULT '',
       total_xp INTEGER NOT NULL DEFAULT 0,
-      license_class TEXT NOT NULL DEFAULT 'B',
+      level INTEGER NOT NULL DEFAULT 0,
       streak_days INTEGER NOT NULL DEFAULT 0,
       longest_streak INTEGER NOT NULL DEFAULT 0,
-      last_study_date TEXT
+      last_study_date TEXT,
+      daily_goal_progress INTEGER NOT NULL DEFAULT 0,
+      daily_goal_target INTEGER NOT NULL DEFAULT 5,
+      words_learned INTEGER NOT NULL DEFAULT 0,
+      quizzes_done INTEGER NOT NULL DEFAULT 0,
+      stories_read INTEGER NOT NULL DEFAULT 0
     );
   `);
+
+  migrateUserStatsTable();
+}
+
+function migrateUserStatsTable(): void {
+  const db = getDb();
+  const migrations = [
+    "ALTER TABLE user_stats ADD COLUMN display_name TEXT NOT NULL DEFAULT ''",
+    "ALTER TABLE user_stats ADD COLUMN level INTEGER NOT NULL DEFAULT 0",
+    "ALTER TABLE user_stats ADD COLUMN daily_goal_progress INTEGER NOT NULL DEFAULT 0",
+    "ALTER TABLE user_stats ADD COLUMN daily_goal_target INTEGER NOT NULL DEFAULT 5",
+    "ALTER TABLE user_stats ADD COLUMN words_learned INTEGER NOT NULL DEFAULT 0",
+    "ALTER TABLE user_stats ADD COLUMN quizzes_done INTEGER NOT NULL DEFAULT 0",
+    "ALTER TABLE user_stats ADD COLUMN stories_read INTEGER NOT NULL DEFAULT 0",
+  ];
+
+  for (const migration of migrations) {
+    try {
+      db.execSync(migration);
+    } catch {
+      // Column already exists in databases created by the current schema.
+    }
+  }
 }
