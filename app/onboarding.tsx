@@ -172,6 +172,31 @@ export default function OnboardingScreen() {
           >
             <Text style={styles.startButtonText}>Bắt đầu học</Text>
           </Pressable>
+
+          <Pressable
+            accessibilityRole="button"
+            onPress={() => {
+              try {
+                getDb().runSync(
+                  `INSERT OR REPLACE INTO user_stats (
+                    user_id, display_name, total_xp, level,
+                    streak_days, longest_streak, last_study_date,
+                    daily_goal_progress, daily_goal_target,
+                    words_learned, quizzes_done, stories_read
+                  ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+                  USER_ID, name.trim() || "Bạn nhỏ", 0, selectedLevel,
+                  0, 0, new Date().toISOString(), 0, DAILY_GOAL_WORDS, 0, 0, 0
+                );
+              } catch (_e) {}
+              router.replace("/(tabs)");
+            }}
+            style={({ pressed }) => [
+              styles.skipButton,
+              pressed ? styles.startButtonPressed : null,
+            ]}
+          >
+            <Text style={styles.skipButtonText}>Bỏ qua, vào app luôn →</Text>
+          </Pressable>
         </ScrollView>
       </KeyboardAvoidingView>
     </SafeAreaView>
@@ -263,6 +288,22 @@ const styles = StyleSheet.create({
     fontSize: FONT_SIZE.lg,
     minHeight: 56,
     paddingHorizontal: SPACING.lg,
+  },
+  skipButton: {
+    alignItems: "center",
+    backgroundColor: COLORS.white,
+    borderColor: COLORS.border,
+    borderRadius: BORDER_RADIUS.pill,
+    borderWidth: 1,
+    justifyContent: "center",
+    marginTop: SPACING.md,
+    minHeight: 54,
+    paddingHorizontal: SPACING.xl,
+  },
+  skipButtonText: {
+    color: COLORS.textSecondary,
+    fontSize: FONT_SIZE.md,
+    fontWeight: "700",
   },
   errorText: {
     color: COLORS.danger,
