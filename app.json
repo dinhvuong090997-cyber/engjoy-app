@@ -6,17 +6,20 @@
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
-    "extra": {
-      "eas": {
-        "projectId": "engjoy-app"
-      }
-    },
     "web": {
       "output": "single",
       "bundler": "metro",
       "name": "EngJoy",
       "shortName": "EngJoy",
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "engjoy-app"
+      },
+      "router": {
+        "baseUrl": "/engjoy-app/"
+      }
     },
     "ios": {
       "supportsTablet": true

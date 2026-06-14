@@ -13,15 +13,17 @@ jobs:
         with:
           node-version: 22
       - run: npm ci
-      - run: npx expo export --platform web --output-dir dist
+      - run: |
+          EXPO_BASE_URL=/engjoy-app/ npx expo export --platform web --output-dir dist
       - name: Fix asset paths for GitHub Pages
         run: |
           cd dist
-          # Create index.html at root if not exists
-          if [ -f "_expo/static/js/web/index.html" ]; then
-            cp _expo/static/js/web/index.html index.html
-          fi
-          # Ensure all HTML files exist
+          # Fix paths in index.html (remove leading /)
+          sed -i 's|href="/favicon.ico"|href="favicon.ico"|g; s|src="/_expo|src="_expo|g' index.html
+          # Fix paths in JS bundle (remove leading /asset → asset)
+          for js in _expo/static/js/web/*.js; do
+            sed -i 's|"/assets/|"assets/|g' "$js"
+          done
           find . -name "*.html" | head -20
       - uses: actions/upload-pages-artifact@v3
         with:
