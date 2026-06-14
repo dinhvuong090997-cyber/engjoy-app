@@ -15,11 +15,11 @@ import {
   FONT_SIZE,
   SPACING,
 } from "../../src/constants";
-import { stories } from "../../src/db/seed";
+import { libraryStories } from "../../src/db/stories";
 import { buildStoryCards, type StoryCard } from "../../src/read";
 
-export default function ReadScreen() {
-  const storyCards = useMemo(() => buildStoryCards(stories), []);
+export default function LibraryScreen() {
+  const storyCards = useMemo(() => buildStoryCards(libraryStories), []);
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -28,9 +28,9 @@ export default function ReadScreen() {
         showsVerticalScrollIndicator={false}
       >
         <View style={styles.header}>
-          <Text style={styles.title}>Truyện EngJoy 📖</Text>
+          <Text style={styles.title}>Thư Viện 📚</Text>
           <Text style={styles.subtitle}>
-            Đọc truyện song ngữ với tranh emoji vui nhộn.
+            Đọc và nghe những câu chuyện ngụ ngôn kinh điển bằng tiếng Anh.
           </Text>
         </View>
 
@@ -55,24 +55,38 @@ export default function ReadScreen() {
 
 function StoryCardItem({ story }: { story: StoryCard }) {
   return (
-    <Pressable
-      accessibilityRole="button"
-      onPress={() => router.push(`/read/${story.routeId}`)}
-      style={({ pressed }) => [
-        styles.storyCard,
-        pressed ? styles.pressedCard : null,
-      ]}
-    >
-      <View style={styles.cardHeader}>
-        <Text numberOfLines={2} style={styles.storyTitle}>
-          {story.title}
+    <View style={styles.storyCard}>
+      <Pressable
+        accessibilityRole="button"
+        onPress={() => router.push(`/library/${story.routeId}`)}
+        style={({ pressed }) => [
+          styles.storyBody,
+          pressed ? styles.pressedCard : null,
+        ]}
+      >
+        <View style={styles.cardHeader}>
+          <Text numberOfLines={2} style={styles.storyTitle}>
+            {story.title}
+          </Text>
+          <Text style={styles.levelBadge}>{story.levelLabel}</Text>
+        </View>
+        <Text numberOfLines={2} style={styles.emojiPreview}>
+          {story.emojiPreview}
         </Text>
-        <Text style={styles.levelBadge}>{story.levelLabel}</Text>
+      </Pressable>
+      <View style={styles.actionRow}>
+        <Pressable
+          accessibilityRole="button"
+          onPress={() => router.push(`/library/${story.routeId}`)}
+          style={({ pressed }) => [
+            styles.actionButton,
+            pressed ? styles.pressedCard : null,
+          ]}
+        >
+          <Text style={styles.actionText}>📖 Đọc</Text>
+        </Pressable>
       </View>
-      <Text numberOfLines={2} style={styles.emojiPreview}>
-        {story.emojiPreview}
-      </Text>
-    </Pressable>
+    </View>
   );
 }
 
@@ -127,13 +141,15 @@ const styles = StyleSheet.create({
     borderColor: COLORS.border,
     borderRadius: BORDER_RADIUS.lg,
     borderWidth: 1,
-    minHeight: 154,
-    padding: SPACING.md,
+    overflow: "hidden",
     width: "47.8%",
+  },
+  storyBody: {
+    padding: SPACING.md,
+    minHeight: 100,
   },
   pressedCard: {
     opacity: 0.72,
-    transform: [{ scale: 0.98 }],
   },
   cardHeader: {
     gap: SPACING.sm,
@@ -161,5 +177,20 @@ const styles = StyleSheet.create({
     fontSize: FONT_SIZE.xxl,
     lineHeight: 42,
     marginTop: "auto",
+  },
+  actionRow: {
+    borderTopColor: COLORS.border,
+    borderTopWidth: 1,
+    flexDirection: "row",
+  },
+  actionButton: {
+    alignItems: "center",
+    flex: 1,
+    paddingVertical: SPACING.sm,
+  },
+  actionText: {
+    color: COLORS.primary,
+    fontSize: FONT_SIZE.md,
+    fontWeight: "900",
   },
 });

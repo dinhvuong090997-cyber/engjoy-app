@@ -24,7 +24,8 @@ import {
   type DashboardStatsInput,
   type SuggestedTopic,
 } from "../../src/dashboard";
-import { questions, stories, vocabulary } from "../../src/db/seed";
+import { vocabulary } from "../../src/db/seed";
+import { libraryStories } from "../../src/db/stories";
 import { TOPICS, type Topic, type VocabWord } from "../../src/types";
 
 let getDb: () => any;
@@ -304,8 +305,8 @@ function StatCard({
 function buildQuickStats(level: number) {
   return {
     words: vocabulary.filter((word) => word.level === level).length,
-    questions: questions.filter((question) => question.level === level).length,
-    stories: stories.filter((story) => story.level === level).length,
+    questions: vocabulary.filter((word) => word.level === level).length,
+    stories: libraryStories.filter((story) => story.panels.length > 0).length,
   };
 }
 

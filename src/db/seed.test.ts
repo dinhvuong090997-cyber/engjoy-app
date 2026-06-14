@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 
-import { questions, stories, topics, vocabulary } from "./seed";
+import { questions, topics, vocabulary } from "./seed";
 import { TOPICS } from "../types";
 
 const levelZeroTopicMinimums: Record<string, number> = {
@@ -144,43 +144,4 @@ test("seed data has complete Level 0 through Level 5 learning content", () => {
     assert.ok(TOPICS.includes(question.topic as (typeof TOPICS)[number]));
   }
 
-  assert.ok(stories.length >= 4);
-  assert.deepEqual(new Set(stories.map((story) => story.level)), new Set([0, 1, 2, 3, 4, 5]));
-  assert.deepEqual(new Set(stories.map((story) => story.unlock_level)), new Set([0, 1, 2, 3, 4, 5]));
-  assert.ok(
-    stories.filter((story) => story.level === 1).length >= 2,
-    "Level 1 needs at least 2 stories"
-  );
-  for (const story of stories) {
-    const expectedLangSenPanels = langSenPanelCounts[story.title];
-
-    assert.ok(story.title.trim().length > 0);
-    assert.ok(story.title_vi.trim().length > 0);
-    assert.ok(story.panels.length >= 4);
-    assert.ok(story.panels.length <= 20);
-    assert.equal(
-      story.questions.length,
-      expectedLangSenPanels === undefined ? 3 : 4
-    );
-    if (expectedLangSenPanels !== undefined) {
-      assert.equal(story.panels.length, expectedLangSenPanels);
-    }
-    assert.ok(
-      story.panels.every(
-        (panel) =>
-          panel.emoji.trim().length > 0 &&
-          panel.en.trim().length > 0 &&
-          panel.vi.trim().length > 0
-      )
-    );
-    assert.ok(
-      story.questions.every(
-        (question) =>
-          question.content.trim().length > 0 &&
-          question.options.length >= 3 &&
-          question.correct_index >= 0 &&
-          question.correct_index < question.options.length
-      )
-    );
-  }
 });

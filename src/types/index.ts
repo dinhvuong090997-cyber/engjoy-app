@@ -27,19 +27,11 @@ export interface StoryPanel {
   emoji: string;
 }
 
-export interface StoryQuestion {
-  content: string;
-  options: string[];
-  correct_index: number;
-}
-
 export interface Story {
+  id: number;
   title: string;
   title_vi: string;
   panels: StoryPanel[];
-  level: number;
-  unlock_level: number;
-  questions: StoryQuestion[];
 }
 
 export type QuestionType = Question["type"];

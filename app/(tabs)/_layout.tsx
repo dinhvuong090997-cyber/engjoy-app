@@ -24,7 +24,7 @@ const TAB_ITEMS = {
   index: { icon: "🏠", label: "Trang chủ" },
   learn: { icon: "📚", label: "Học" },
   practice: { icon: "🎮", label: "Luyện" },
-  read: { icon: "📖", label: "Đọc" },
+  library: { icon: "📖", label: "Thư Viện" },
   profile: { icon: "👤", label: "Cá nhân" },
 } as const;
 
@@ -134,21 +134,21 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="read"
+        name="library"
         options={{
-          title: TAB_ITEMS.read.label,
+          title: TAB_ITEMS.library.label,
           tabBarIcon: ({ color, focused }) => (
             <TabIcon
               color={color}
               focused={focused}
-              icon={TAB_ITEMS.read.icon}
+              icon={TAB_ITEMS.library.icon}
             />
           ),
           tabBarLabel: ({ color, focused }) => (
             <TabLabel
               color={color}
               focused={focused}
-              label={TAB_ITEMS.read.label}
+              label={TAB_ITEMS.library.label}
             />
           ),
         }}
