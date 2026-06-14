@@ -60,9 +60,9 @@ engjoy-app/
 ### Vai trò
 | Vai trò | Người | Trách nhiệm |
 |---|---|---|
-| **PM** | @fiaboo | Quyết định tính năng, review output, approve, test |
-| **Kỹ sư AI 1** | Codex CLI (OpenAI) | Build screens nhỏ, components, DB operations |
-| **Kỹ sư AI 2** | Claude Code (Anthropic) | Giải quyết bugs phức tạp, seed data lớn, architectural review |
+| **PM + Founder** | @fiaboo | Quyết định tính năng, review output, approve, test, kiếm khách hàng, định hướng sản phẩm |
+| **Kỹ sư AI** | Codex CLI + Claude Code | Build screens, components, seed data, fix bugs, tests |
+| **Quản lý + Giám sát** | Hermes Agent | Điều phối công việc, gọi Codex/Claude, theo dõi tiến độ, báo cáo PM |
 
 ### Kinh nghiệm thực tế
 - **Codex CLI:** Phù hợp task nhỏ (1 screen, 1 tính năng). Hay bị stuck với seed data lớn (100+ entries)
