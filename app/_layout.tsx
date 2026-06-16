@@ -1,4 +1,4 @@
-import { Stack, router } from "expo-router";
+import { Redirect, router } from "expo-router";
 import { useEffect, useState } from "react";
 import { ActivityIndicator, Platform, StyleSheet, Text, View } from "react-native";
 
@@ -28,12 +28,16 @@ export default function RootLayout() {
 
       if (Platform.OS === "web") {
         const allStats = (getDb() as any).getAllUserStats();
-        router.replace(allStats.length > 0 ? "/(tabs)" : "/onboarding");
+        if (allStats.length === 0) {
+          router.replace("/onboarding");
+        }
       } else {
         const stats = (getDb() as any).getFirstSync(
           "SELECT user_id FROM user_stats LIMIT 1"
         );
-        router.replace(stats ? "/(tabs)" : "/onboarding");
+        if (!stats) {
+          router.replace("/onboarding");
+        }
       }
     } catch (error) {
       console.error("Failed to initialize database", error);
@@ -64,7 +68,7 @@ export default function RootLayout() {
     );
   }
 
-  return <Stack screenOptions={{ headerShown: false }} />;
+  return <Redirect href="/(tabs)" />;
 }
 
 const styles = StyleSheet.create({
