@@ -18,7 +18,8 @@
         "projectId": "engjoy-app"
       },
       "router": {
-        "baseUrl": "/engjoy-app/"
+        "baseUrl": "/engjoy-app/",
+        "initialRouteName": "index"
       }
     },
     "ios": {
