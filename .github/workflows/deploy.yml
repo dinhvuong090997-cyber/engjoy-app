@@ -25,9 +25,10 @@ jobs:
           for js in _expo/static/js/web/*.js; do
             sed -i 's|"/assets/|"assets/|g' "$js"
           done
-          # Create 404.html for SPA fallback
+          # Create 404.html for SPA deep-link fallback (copy fixed index)
           cp index.html 404.html
-          find . -name "*.html" | head -20
+          echo "Dist files:"
+          ls -la
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist/
