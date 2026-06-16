@@ -15,6 +15,7 @@ jobs:
       - run: npm ci
       - run: |
           EXPO_BASE_URL=/engjoy-app/ npx expo export --platform web --output-dir dist
+          echo "EXPO_BASE_URL=/engjoy-app/"
       - name: Fix asset paths for GitHub Pages
         run: |
           cd dist
@@ -24,6 +25,8 @@ jobs:
           for js in _expo/static/js/web/*.js; do
             sed -i 's|"/assets/|"assets/|g' "$js"
           done
+          # Create 404.html for SPA fallback
+          cp index.html 404.html
           find . -name "*.html" | head -20
       - uses: actions/upload-pages-artifact@v3
         with:
