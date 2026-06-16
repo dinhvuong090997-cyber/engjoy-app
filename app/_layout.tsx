@@ -1,66 +1,37 @@
-import { Redirect, router } from "expo-router";
+import { Redirect } from "expo-router";
 import { useEffect, useState } from "react";
-import { ActivityIndicator, Platform, StyleSheet, Text, View } from "react-native";
+import { ActivityIndicator, StyleSheet, View } from "react-native";
 
 import { COLORS } from "../src/constants";
 
 let initDatabase: () => void;
-let getDb: () => any;
 
-// Choose correct schema based on platform
-if (Platform.OS === "web") {
-  const webSchema = require("../src/db/schema.web");
-  initDatabase = webSchema.initDatabase;
-  getDb = webSchema.getDb;
+if (typeof window !== "undefined") {
+  try {
+    const webSchema = require("../src/db/schema.web");
+    initDatabase = webSchema.initDatabase;
+  } catch {}
 } else {
-  const nativeSchema = require("../src/db/schema");
-  initDatabase = nativeSchema.initDatabase;
-  getDb = nativeSchema.getDb;
+  try {
+    const nativeSchema = require("../src/db/schema");
+    initDatabase = nativeSchema.initDatabase;
+  } catch {}
 }
 
 export default function RootLayout() {
-  const [isLoading, setIsLoading] = useState(true);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
     try {
-      initDatabase();
-
-      if (Platform.OS === "web") {
-        const allStats = (getDb() as any).getAllUserStats();
-        if (allStats.length === 0) {
-          router.replace("/onboarding");
-        }
-      } else {
-        const stats = (getDb() as any).getFirstSync(
-          "SELECT user_id FROM user_stats LIMIT 1"
-        );
-        if (!stats) {
-          router.replace("/onboarding");
-        }
-      }
+      if (initDatabase) initDatabase();
     } catch (error) {
-      console.error("Failed to initialize database", error);
-      setErrorMessage(
-        error instanceof Error ? error.message : "Không thể mở dữ liệu học tập."
-      );
+      console.error("Failed to init DB", error);
     } finally {
-      setIsLoading(false);
+      setIsReady(true);
     }
   }, []);
 
-  if (errorMessage) {
-    return (
-      <View style={styles.loading}>
-        <View style={styles.errorCard}>
-          <ActivityIndicator size="small" color={COLORS.primary} />
-          <Text style={styles.errorText}>{errorMessage}</Text>
-        </View>
-      </View>
-    );
-  }
-
-  if (isLoading) {
+  if (!isReady) {
     return (
       <View style={styles.loading}>
         <ActivityIndicator size="large" color={COLORS.white} />
