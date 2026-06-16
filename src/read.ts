@@ -8,6 +8,7 @@ export type StoryCard = {
   thumbnail: string;
   color: string;
   emojiPreview: string;
+  panelsText: string;
 };
 
 export function buildStoryCards(stories: Story[]): StoryCard[] {
@@ -22,6 +23,7 @@ export function buildStoryCards(stories: Story[]): StoryCard[] {
       .slice(0, 4)
       .map((panel) => panel.emoji)
       .join(" "),
+    panelsText: story.panels.map((panel) => panel.en).join(". "),
   }));
 }
 

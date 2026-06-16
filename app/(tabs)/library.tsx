@@ -18,6 +18,11 @@ import {
 import { libraryStories } from "../../src/db/stories";
 import { buildStoryCards, type StoryCard } from "../../src/read";
 
+let Speech: any = null;
+try {
+  Speech = require("expo-speech");
+} catch {}
+
 export default function LibraryScreen() {
   const storyCards = useMemo(() => buildStoryCards(libraryStories), []);
 
@@ -94,6 +99,18 @@ function StoryCardItem({ story }: { story: StoryCard }) {
           ]}
         >
           <Text style={styles.actionText}>📖 Đọc</Text>
+        </Pressable>
+        <Pressable
+          accessibilityRole="button"
+          onPress={() => {
+            Speech?.speak?.(story.panelsText);
+          }}
+          style={({ pressed }) => [
+            styles.actionButton,
+            pressed ? styles.pressedCard : null,
+          ]}
+        >
+          <Text style={styles.actionText}>🎧 Nghe</Text>
         </Pressable>
       </View>
     </View>

@@ -35,6 +35,7 @@ test("builds story cards with index and emoji preview", () => {
       thumbnail: "☀️",
       color: "#FFF8E0",
       emojiPreview: "👦 ☀️ 😊",
+      panelsText: "Tom wakes up.. The sun is bright.. Tom is happy.",
     },
   ]);
 });
