@@ -31,6 +31,8 @@ export interface Story {
   id: number;
   title: string;
   title_vi: string;
+  thumbnail: string;
+  color: string;
   panels: StoryPanel[];
 }
 

@@ -71,6 +71,18 @@ export default function StoryReaderScreen() {
       <View style={styles.container}>
         <Header title={story.title} onSpeakAll={speakStory} isPlaying={isPlaying} />
 
+        <View style={[styles.storyBanner, { backgroundColor: story.color }]}>
+          <Text style={styles.bannerEmoji}>{story.thumbnail}</Text>
+          <View style={styles.bannerTextGroup}>
+            <Text numberOfLines={1} style={styles.bannerTitle}>
+              {story.title}
+            </Text>
+            <Text numberOfLines={1} style={styles.bannerSubtitle}>
+              {story.title_vi}
+            </Text>
+          </View>
+        </View>
+
         <View style={styles.pageCard}>
           <Text style={styles.panelEmoji}>{currentPanel.emoji}</Text>
           <Text
@@ -220,6 +232,36 @@ const styles = StyleSheet.create({
     fontSize: FONT_SIZE.xl,
     fontWeight: "900",
     lineHeight: 30,
+  },
+  storyBanner: {
+    alignItems: "center",
+    borderColor: COLORS.border,
+    borderRadius: BORDER_RADIUS.lg,
+    borderWidth: 1,
+    flexDirection: "row",
+    gap: SPACING.md,
+    marginBottom: SPACING.md,
+    padding: SPACING.md,
+  },
+  bannerEmoji: {
+    fontSize: 48,
+    lineHeight: 58,
+  },
+  bannerTextGroup: {
+    flex: 1,
+  },
+  bannerTitle: {
+    color: COLORS.text,
+    fontSize: FONT_SIZE.lg,
+    fontWeight: "900",
+    lineHeight: 26,
+  },
+  bannerSubtitle: {
+    color: COLORS.textSecondary,
+    fontSize: FONT_SIZE.md,
+    fontWeight: "800",
+    lineHeight: 22,
+    marginTop: SPACING.xs,
   },
   pageCard: {
     alignItems: "center",

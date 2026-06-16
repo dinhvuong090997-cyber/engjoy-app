@@ -5,6 +5,8 @@ export type StoryCard = {
   routeId: string;
   title: string;
   levelLabel: string;
+  thumbnail: string;
+  color: string;
   emojiPreview: string;
 };
 
@@ -14,6 +16,8 @@ export function buildStoryCards(stories: Story[]): StoryCard[] {
     routeId: String(story.id),
     title: story.title,
     levelLabel: "Mới",
+    thumbnail: story.thumbnail,
+    color: story.color,
     emojiPreview: story.panels
       .slice(0, 4)
       .map((panel) => panel.emoji)

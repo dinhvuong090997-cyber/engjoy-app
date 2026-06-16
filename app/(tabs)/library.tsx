@@ -64,15 +64,25 @@ function StoryCardItem({ story }: { story: StoryCard }) {
           pressed ? styles.pressedCard : null,
         ]}
       >
-        <View style={styles.cardHeader}>
-          <Text numberOfLines={2} style={styles.storyTitle}>
-            {story.title}
-          </Text>
-          <Text style={styles.levelBadge}>{story.levelLabel}</Text>
+        <View style={styles.storyMainRow}>
+          <View
+            style={[
+              styles.thumbnailTile,
+              {
+                backgroundColor: story.color,
+                borderColor: story.color,
+              },
+            ]}
+          >
+            <Text style={styles.thumbnailEmoji}>{story.thumbnail}</Text>
+          </View>
+          <View style={styles.cardHeader}>
+            <Text numberOfLines={2} style={styles.storyTitle}>
+              {story.title}
+            </Text>
+            <Text style={styles.levelBadge}>{story.levelLabel}</Text>
+          </View>
         </View>
-        <Text numberOfLines={2} style={styles.emojiPreview}>
-          {story.emojiPreview}
-        </Text>
       </Pressable>
       <View style={styles.actionRow}>
         <Pressable
@@ -142,16 +152,34 @@ const styles = StyleSheet.create({
     borderRadius: BORDER_RADIUS.lg,
     borderWidth: 1,
     overflow: "hidden",
-    width: "47.8%",
+    width: "100%",
   },
   storyBody: {
+    minHeight: 112,
     padding: SPACING.md,
-    minHeight: 100,
   },
   pressedCard: {
     opacity: 0.72,
   },
+  storyMainRow: {
+    alignItems: "center",
+    flexDirection: "row",
+    gap: SPACING.md,
+  },
+  thumbnailTile: {
+    alignItems: "center",
+    borderRadius: BORDER_RADIUS.lg,
+    borderWidth: 1,
+    height: 80,
+    justifyContent: "center",
+    width: 80,
+  },
+  thumbnailEmoji: {
+    fontSize: 48,
+    lineHeight: 58,
+  },
   cardHeader: {
+    flex: 1,
     gap: SPACING.sm,
   },
   storyTitle: {
@@ -159,7 +187,7 @@ const styles = StyleSheet.create({
     fontSize: FONT_SIZE.lg,
     fontWeight: "900",
     lineHeight: 24,
-    minHeight: 48,
+    minHeight: 0,
   },
   levelBadge: {
     alignSelf: "flex-start",
@@ -171,12 +199,6 @@ const styles = StyleSheet.create({
     overflow: "hidden",
     paddingHorizontal: SPACING.sm,
     paddingVertical: SPACING.xs,
-  },
-  emojiPreview: {
-    color: COLORS.text,
-    fontSize: FONT_SIZE.xxl,
-    lineHeight: 42,
-    marginTop: "auto",
   },
   actionRow: {
     borderTopColor: COLORS.border,

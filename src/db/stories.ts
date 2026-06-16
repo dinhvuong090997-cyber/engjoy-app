@@ -5,6 +5,8 @@ export const libraryStories: Story[] = [
     id: 1,
     title: "The Tortoise and the Hare",
     title_vi: "Rùa và Thỏ",
+    thumbnail: "🐢",
+    color: "#F0FFF0",
     panels: [
       { en: "A hare laughs at a tortoise for being slow.", vi: "Thỏ cười nhạo Rùa vì chậm chạp.", emoji: "🐇" },
       { en: '"You are the slowest animal I know!" says the hare.', vi: '"Cậu là con vật chậm nhất tôi biết!" Thỏ nói.', emoji: "😆" },
@@ -20,6 +22,8 @@ export const libraryStories: Story[] = [
     id: 2,
     title: "The Boy Who Cried Wolf",
     title_vi: "Cậu Bé Chăn Cừu",
+    thumbnail: "🐑",
+    color: "#FFF8E0",
     panels: [
       { en: "A boy watches sheep near a village.", vi: "Một cậu bé trông cừu gần làng.", emoji: "🐑" },
       { en: "He feels bored and wants some excitement.", vi: "Cậu thấy chán và muốn chút náo nhiệt.", emoji: "😐" },
@@ -35,6 +39,8 @@ export const libraryStories: Story[] = [
     id: 3,
     title: "The Lion and the Mouse",
     title_vi: "Sư Tử và Chuột Nhắt",
+    thumbnail: "🦁",
+    color: "#FFF0F0",
     panels: [
       { en: "A lion sleeps under a big tree.", vi: "Sư tử ngủ dưới gốc cây to.", emoji: "🦁" },
       { en: "A little mouse runs across his nose, waking him up.", vi: "Chuột nhắt chạy qua mũi sư tử, đánh thức nó dậy.", emoji: "🐭" },
@@ -50,6 +56,8 @@ export const libraryStories: Story[] = [
     id: 4,
     title: "The Fox and the Grapes",
     title_vi: "Cáo và Nho",
+    thumbnail: "🦊",
+    color: "#F5E6FF",
     panels: [
       { en: "A fox walks through a forest on a hot day.", vi: "Cáo đi qua khu rừng trong ngày nóng.", emoji: "🦊" },
       { en: "He sees a bunch of grapes hanging high above.", vi: "Nó thấy chùm nho treo cao trên cao.", emoji: "🍇" },
@@ -65,6 +73,8 @@ export const libraryStories: Story[] = [
     id: 5,
     title: "The Ant and the Grasshopper",
     title_vi: "Kiến và Châu Chấu",
+    thumbnail: "🐜",
+    color: "#E8F5E9",
     panels: [
       { en: "Summer is warm and the sun shines brightly.", vi: "Mùa hè ấm áp và mặt trời chiếu sáng.", emoji: "☀️" },
       { en: "A grasshopper sings and dances all day long.", vi: "Châu chấu ca hát và nhảy múa suốt ngày.", emoji: "🦗" },
@@ -80,6 +90,8 @@ export const libraryStories: Story[] = [
     id: 6,
     title: "The Paper Airplane",
     title_vi: "Chiếc Máy Bay Giấy",
+    thumbnail: "✈️",
+    color: "#E3F2FD",
     panels: [
       { en: "Mai is a quiet girl who sits by the window in class.", vi: "Mai là một cô gái trầm lặng ngồi cạnh cửa sổ.", emoji: "🌸" },
       { en: "She loves reading books and drawing little flowers in her notebook.", vi: "Cô thích đọc sách và vẽ hoa nhỏ trong vở.", emoji: "📚" },

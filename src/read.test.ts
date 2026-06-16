@@ -13,6 +13,8 @@ const sampleStories: Story[] = [
     id: 1,
     title: "Tom and the Sun",
     title_vi: "Tom và mặt trời",
+    thumbnail: "☀️",
+    color: "#FFF8E0",
     panels: [
       { emoji: "👦", en: "Tom wakes up.", vi: "Tom thức dậy." },
       { emoji: "☀️", en: "The sun is bright.", vi: "Mặt trời sáng." },
@@ -30,6 +32,8 @@ test("builds story cards with index and emoji preview", () => {
       routeId: "1",
       title: "Tom and the Sun",
       levelLabel: "Mới",
+      thumbnail: "☀️",
+      color: "#FFF8E0",
       emojiPreview: "👦 ☀️ 😊",
     },
   ]);
