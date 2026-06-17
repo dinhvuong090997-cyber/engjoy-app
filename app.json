@@ -2,6 +2,7 @@
   "expo": {
     "name": "EngJoy",
     "slug": "engjoy-app",
+    "owner": "fiaboo",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -14,18 +15,19 @@
       "favicon": "./assets/favicon.png"
     },
     "extra": {
-      "eas": {
-        "projectId": "engjoy-app"
-      },
       "router": {
         "baseUrl": "/engjoy-app/",
         "initialRouteName": "index"
+      },
+      "eas": {
+        "projectId": "89b89779-23fe-41e9-a91f-4dd1a7d967ff"
       }
     },
     "ios": {
       "supportsTablet": true
     },
     "android": {
+      "package": "com.fiaboo.engjoy",
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
         "foregroundImage": "./assets/android-icon-foreground.png",

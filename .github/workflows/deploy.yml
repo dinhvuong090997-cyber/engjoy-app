@@ -13,6 +13,15 @@ jobs:
         with:
           node-version: 22
       - run: npm ci
+      - name: Patch Expo Router base path for GitHub Pages
+        run: |
+          for file in \
+            node_modules/expo-router/build/fork/getStateFromPath-forks.js \
+            node_modules/expo-router/build/fork/getPathFromState-forks.js \
+            node_modules/expo-router/build/fork/getPathFromState.js
+          do
+            perl -0pi -e 's/baseUrl = process\.env\.EXPO_BASE_URL/baseUrl = "\/engjoy-app\/"/g' "$file"
+          done
       - run: |
           EXPO_BASE_URL=/engjoy-app/ npx expo export --platform web --output-dir dist
           echo "EXPO_BASE_URL=/engjoy-app/"
@@ -25,6 +34,7 @@ jobs:
           for js in _expo/static/js/web/*.js; do
             sed -i 's|"/assets/|"assets/|g' "$js"
           done
+          touch .nojekyll
           # Create 404.html for SPA deep-link fallback (copy fixed index)
           cp index.html 404.html
           echo "Dist files:"
